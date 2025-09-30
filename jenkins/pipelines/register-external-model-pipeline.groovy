@@ -1,8 +1,8 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'MODEL_FILE_PATH', defaultValue: 'simple-cifar10.h5', description: 'Path to the model file (e.g., simple-cifar10.h5)')
-        string(name: 'MODEL_NAME', defaultValue: 'simple-cifar10', description: 'Name of the model for MLflow registration')
+        string(name: 'MODEL_FILE_PATH', defaultValue: '', description: 'Path to the model file (e.g., simple-cifar10.h5)')
+        string(name: 'MODEL_NAME', defaultValue: '', description: 'Name of the model for MLflow registration')
     }
     environment {
         MLFLOW_TRACKING_URI = "http://mlflow-server:5000"

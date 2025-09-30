@@ -11,7 +11,7 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
       - /Users/myusgibnev/models:/downloads/models
-      - /Users/myusgibnev/LLM/Adversarial-AI---Attacks-Mitigations-and-Defense-Strategies/ch18/jenkins/scripts:/scripts
+      - /Users/myusgibnev/PycharmProjects/mlsecopspipeline/jenkins/scripts:/scripts
     environment:
       - MLFLOW_TRACKING_URI=http://mlflow-server:5000
 

@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  jenkins-mlsecops:
+    build:
+      context: ./jenkins
+    image: jenkins-mlsecops
+
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /Users/myusgibnev/models:/downloads/models
+      - /Users/myusgibnev/LLM/Adversarial-AI---Attacks-Mitigations-and-Defense-Strategies/ch18/jenkins/scripts:/scripts
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow-server:5000
+
+  mlflow-server:
+    build:
+      context: ./mlflow
+    image: mlflow-mlsecops
+    ports:
+      - "5000:5000"
+
+volumes:
+  jenkins_home:

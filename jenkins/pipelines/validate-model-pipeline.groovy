@@ -27,16 +27,25 @@ pipeline {
         stage('Adversarial Tests') {
             steps {     
                 script {           
-                    sh '. /app/venv/bin/activate && python /app/scripts/adversarial_tests.py --model-file ${params.MODEL_FILE_PATH}'
+                    sh '. /app/venv/bin/activate && python /app/scripts/adversarial_tests.py --tracking-uri ${MLFLOW_TRACKING_URI} --model-file /downloads/models/${MODEL_FILE_PATH}'
             }
          }
         }
        stage('Register Model') {
-            steps {
+             steps {
                 script {
-                sh '. /app/venv/bin/activate && python /app/scripts/register_model.py --tracking-uri ${MLFLOW_TRACKING_URI} --model-file ${params.MODEL_FILE_PATH}'
-        }
-    }
+                    def jobIdentifier = "${env.JOB_NAME}-${env.BUILD_ID}"
+                    sh """
+                        #!/bin/bash
+                        . /app/venv/bin/activate
+                        python /scripts/register_external_model.py \
+                            --tracking-uri "\${MLFLOW_TRACKING_URI}" \
+                            --model-file "/downloads/models/\${MODEL_FILE_PATH}" \
+                            --model-name "\${MODEL_NAME}" \
+                            --run "Jenkins-Pipeline"
+                    """
+                }
+            }
    }
     }
     post {
